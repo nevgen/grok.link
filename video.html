@@ -6,8 +6,7 @@
     <title>Video Page</title>
     <style>
         #myVideo {
-            width: 100px;
-            height: 100px;
+            width: 300px;
         }
     </style>
 </head>
@@ -23,31 +22,21 @@
         const pipButton = document.getElementById('pipButton');
 
         pipButton.addEventListener('click', async () => {
-            if (document.pictureInPictureEnabled) {
-                try {
-                    await video.play(); // Play the video
-                    await video.requestPictureInPicture(); // Enter PiP mode
-                } catch (error) {
-                    console.error('Error entering PiP:', error);
-                    alert('PiP is unavailable or an error occurred.');
-                }
-            } else {
-                alert('PiP is not supported in this browser.');
+            try {
+                await video.play(); // Play the video if not already playing
+                await video.requestFullscreen(); // Request fullscreen
+            } catch (error) {
+                console.error('Error entering fullscreen:', error);
+                alert('Fullscreen is unavailable or an error occurred.');
             }
         });
 
-        // Optional: handle leaving PiP
-        video.addEventListener('leavepictureinpicture', () => {
-            console.log('Leaving PiP');
-            // You can add logic, e.g., pause the video
-        });
-
-        // Handle entering PiP to trigger opening X in a new tab
-        video.addEventListener('enterpictureinpicture', () => {
-            // Open X app or web in a new tab
-            const newTab = window.open('twitter://user?screen_name=elonmusk', '_blank');
-            if (!newTab) {
-                window.open('https://x.com/elonmusk', '_blank');
+        // Handle entering fullscreen to open the URL after a short delay
+        video.addEventListener('fullscreenchange', () => {
+            if (document.fullscreenElement === video) {
+                setTimeout(() => {
+                    window.open('https://x.com/elonmusk', '_blank');
+                }, 1000); // Short delay of 1 second
             }
         });
     </script>
