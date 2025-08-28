@@ -5,8 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Page</title>
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: black;
+        }
         #myVideo {
-            width: 300px;
+            max-width: 100%;
+            max-height: 100%;
         }
     </style>
 </head>
@@ -14,31 +21,5 @@
     <video id="myVideo" src="anivideo.mov" loop controls playsinline>
         Your browser does not support the video tag.
     </video>
-    
-    <button id="pipButton">Start PiP</button>
-
-    <script>
-        const video = document.getElementById('myVideo');
-        const pipButton = document.getElementById('pipButton');
-
-        pipButton.addEventListener('click', async () => {
-            try {
-                await video.play(); // Play the video if not already playing
-                await video.requestFullscreen(); // Request fullscreen
-            } catch (error) {
-                console.error('Error entering fullscreen:', error);
-                alert('Fullscreen is unavailable or an error occurred.');
-            }
-        });
-
-        // Handle entering fullscreen to open the URL after a short delay
-        video.addEventListener('fullscreenchange', () => {
-            if (document.fullscreenElement === video) {
-                setTimeout(() => {
-                    window.open('https://x.com/elonmusk', '_blank');
-                }, 1000); // Short delay of 1 second
-            }
-        });
-    </script>
 </body>
 </html>
