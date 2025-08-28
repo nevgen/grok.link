@@ -6,7 +6,8 @@
     <title>Video Page</title>
     <style>
         #myVideo {
-            display: none;
+            width: 10px;
+            height: 10px;
         }
     </style>
 </head>
@@ -26,6 +27,11 @@
                 try {
                     await video.play(); // Play the video
                     await video.requestPictureInPicture(); // Enter PiP mode
+                    // Open X app to Elon Musk's profile, fallback to web if app not installed
+                    window.location.href = 'twitter://user?screen_name=elonmusk';
+                    setTimeout(() => {
+                        window.location.href = 'https://x.com/elonmusk';
+                    }, 2000);
                 } catch (error) {
                     console.error('Error entering PiP:', error);
                     alert('PiP is unavailable or an error occurred.');
