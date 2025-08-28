@@ -6,8 +6,37 @@
     <title>Video Page</title>
 </head>
 <body>
-    <video src="anivideo.mov" loop controls playsinline>
+    <video id="myVideo" src="anivideo.mov" loop controls playsinline>
         Your browser does not support the video tag.
     </video>
+    
+    <button id="pipButton">Запустить PiP</button>
+
+    <script>
+        const video = document.getElementById('myVideo');
+        const pipButton = document.getElementById('pipButton');
+
+        pipButton.addEventListener('click', async () => {
+            if (document.pictureInPictureEnabled) {
+                try {
+                    if (video.paused) {
+                        await video.play(); // Запускаем видео, если оно на паузе
+                    }
+                    await video.requestPictureInPicture(); // Запускаем PiP
+                } catch (error) {
+                    console.error('Ошибка запуска PiP:', error);
+                    alert('PiP недоступен или произошла ошибка.');
+                }
+            } else {
+                alert('PiP не поддерживается в этом браузере.');
+            }
+        });
+
+        // Опционально: обработка выхода из PiP
+        video.addEventListener('leavepictureinpicture', () => {
+            console.log('Выход из PiP');
+            // Можно добавить логику, например, паузу видео
+        });
+    </script>
 </body>
 </html>
