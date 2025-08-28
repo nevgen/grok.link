@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Page</title>
+    <style>
+        #myVideo {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <video id="myVideo" src="anivideo.mov" loop controls playsinline>
         Your browser does not support the video tag.
     </video>
     
-    <button id="pipButton">Запустить PiP</button>
+    <button id="pipButton">Start PiP</button>
 
     <script>
         const video = document.getElementById('myVideo');
@@ -19,23 +24,21 @@
         pipButton.addEventListener('click', async () => {
             if (document.pictureInPictureEnabled) {
                 try {
-                    if (video.paused) {
-                        await video.play(); // Запускаем видео, если оно на паузе
-                    }
-                    await video.requestPictureInPicture(); // Запускаем PiP
+                    await video.play(); // Play the video
+                    await video.requestPictureInPicture(); // Enter PiP mode
                 } catch (error) {
-                    console.error('Ошибка запуска PiP:', error);
-                    alert('PiP недоступен или произошла ошибка.');
+                    console.error('Error entering PiP:', error);
+                    alert('PiP is unavailable or an error occurred.');
                 }
             } else {
-                alert('PiP не поддерживается в этом браузере.');
+                alert('PiP is not supported in this browser.');
             }
         });
 
-        // Опционально: обработка выхода из PiP
+        // Optional: handle leaving PiP
         video.addEventListener('leavepictureinpicture', () => {
-            console.log('Выход из PiP');
-            // Можно добавить логику, например, паузу видео
+            console.log('Leaving PiP');
+            // You can add logic, e.g., pause the video
         });
     </script>
 </body>
